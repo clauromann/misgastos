@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="main-container">
+    <header class="app-header">
+        <p>Dashboard 2026</p>
+        <h2>MisGastos</h2>
+    </header>
+
+    <div class="month-selector">
+        {% for m in ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] %}
+        <a href="?mes={{ m }}" class="month-link">
+            <button class="month-btn {{ 'active' if m == mes else '' }}">
+                {{ m }}
+            </button>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="balance-card">
+        <span class="card-label">Disponible en {{ mes }}</span>
+        <h1 class="balance-amount">{{ "%.2f"|format(balance) }}€</h1>
+        <div class="card-stats">
+            <div class="stat-item">
+                <small>Ingresos</small>
+                <span class="income-text">+{{ "%.2f"|format(ingresos) }}€</span>
+            </div>
+            <div class="stat-item">
+                <small>Gastos</small>
+                <span class="expense-text">-{{ "%.2f"|format(gastos) }}€</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <i class="fas fa-piggy-bank icon-gold"></i>
+            <small>Total Ahorrado</small>
+            <strong>{{ "%.2f"|format(ahorros) }}€</strong>
+        </div>
+        <div class="info-card">
+            <i class="fas fa-globe icon-blue"></i>
+            <small>Balance Año</small>
+            <strong style="color: {{ '#2ecc71' if balance_anual >= 0 else '#ff7675' }}">
+                {{ "%.2f"|format(balance_anual) }}€
+            </strong>
+        </div>
+    </div>
+
+    <div class="category-summary">
+        <h3 class="section-title">Distribución de Gastos</h3>
+        
+        <div style="height: 200px; margin-bottom: 20px;">
+            <canvas id="graficoCategorias"></canvas>
+        </div>
+
+        <h3 class="section-title">Detalle ({{ mes }})</h3>
+        {% for cat_nombre, cat_total in categorias %}
+        {% endfor %}
+    </div>
+
+    <div class="chart-container">
+        <h3 class="chart-title">Tendencia Mensual</h3>
+        <div class="canvas-wrapper">
+            <canvas id="graficoAnual"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const datosAnuales = {
+        labels: {{ datos_anuales.labels|tojson }},
+        ingresos: {{ datos_anuales.ingresos|tojson }},
+        gastos: {{ datos_anuales.gastos|tojson }}
+    };
+    const labelsCat = {{ labels_cat|tojson }};
+    const valuesCat = {{ values_cat|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,112 @@
+/* Contenedor con más aire */
+.main-container {
+    padding: 25px 20px 100px 20px;
+    background-color: #fcfcfd;
+}
+
+.app-header {
+    margin-bottom: 30px;
+}
+
+.app-header h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+}
+
+/* Tarjetas más elegantes */
+.form-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.form-label {
+    font-size: 0.9rem;
+    color: #909090;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs minimalistas */
+.form-select, .form-input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    font-size: 1rem;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #2ecc71;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+}
+
+/* El input de cantidad como protagonista */
+.amount-input {
+    font-size: 2rem !important;
+    font-weight: 700;
+    color: #27ae60;
+    background: #f0fff4 !important;
+    border: none !important;
+}
+
+/* Selector de semanas tipo "Burbuja" */
+.semana-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.semana-btn { flex: 1; }
+
+.semana-btn .btn-content {
+    padding: 15px 5px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    color: #636e72;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.semana-btn input:checked + .btn-content {
+    background: #ffffff;
+    color: #2ecc71;
+    border-color: #2ecc71;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+    font-weight: 700;
+}
+
+/* Botón de acción con gradiente suave */
+.submit-btn-ingreso {
+    width: 100%;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.25);
+    cursor: pointer;
+}
+
+/* Historial más limpio */
+.history-item {
+    background: white;
+    padding: 18px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    border-left: 6px solid #2ecc71;
+}

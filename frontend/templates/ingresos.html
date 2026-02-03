@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ingresos.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <header class="app-header">
+        <p>Finanzas Personales</p>
+        <h2>Nuevo Ingreso</h2>
+    </header>
+
+    <form method="POST" id="formIngreso">
+        <div class="form-card">
+            <label class="form-label">Mes contable</label>
+            <select name="mes" class="form-select">
+                {% for mes_nombre in meses %}
+                <option value="{{ mes_nombre }}" {{ 'selected' if mes_nombre == mes_actual }}>{{ mes_nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-card">
+            <label class="form-label">Semana del mes</label>
+            <div class="semana-selector">
+                {% for i in range(1, 6) %}
+                <label class="semana-btn">
+                    <input type="radio" name="semana" value="{{ i }}" required>
+                    <span class="btn-content">Sem {{ i }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-card">
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Concepto</label>
+                <input type="text" name="concepto" placeholder="Ej. Nómina" required class="form-input">
+            </div>
+            <div>
+                <label class="form-label">Importe total (€)</label>
+                <input type="number" id="cantidadInput" name="cantidad" step="0.01" placeholder="0.00" required class="form-input amount-input">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn-ingreso">
+            Confirmar Ingreso
+        </button>
+    </form>
+
+    <div class="history-section">
+        <h3 class="section-title" style="margin: 30px 0 15px 5px;">Movimientos recientes</h3>
+        {% for ing in ingresos %}
+        <div class="history-item">
+            <div class="history-info">
+                <strong style="font-size: 1.05rem;">{{ ing.concepto }}</strong>
+                <small style="color: #a0a0a0;">{{ ing.mes }} • Semana {{ ing.semana }}</small>
+            </div>
+            <div class="history-amount">+{{ "%.2f"|format(ing.cantidad) }}€</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/ingresos.js') }}"></script>
+{% endblock %}
