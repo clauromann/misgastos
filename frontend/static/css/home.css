@@ -1,0 +1,32 @@
+.home-container { max-width: 900px; margin: 0 auto; padding-bottom: 40px; }
+
+.main-year-title { 
+    font-size: 5rem; font-weight: 900; color: #752343; 
+    text-align: center; margin: 30px 0; letter-spacing: -3px; 
+}
+
+/* Caja Mes Superior */
+.month-card-container { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 25px; }
+.month-selector-mini { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; }
+.m-dot { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #eee; background: white; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: 0.3s; color: #bbb;}
+.m-dot.active { background: #752343; color: white; border-color: #752343; }
+
+.month-stats-box { display: flex; justify-content: space-around; align-items: center; }
+.m-stat { display: flex; flex-direction: column; text-align: center; }
+.divider { border-left: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0; padding: 0 30px; }
+.m-label { font-size: 0.65rem; font-weight: 800; color: #bbb; letter-spacing: 1px; margin-bottom: 5px; }
+.m-amount { font-size: 1.3rem; font-weight: 900; }
+.m-amount.pos { color: #2ecc71; }
+.m-amount.neg { color: #e74c3c; }
+.m-stat.main .m-amount { font-size: 2.2rem; }
+
+/* Tarjetas Anuales */
+.annual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+.card-solid { background: #752343; padding: 25px; border-radius: 25px; color: white; box-shadow: 0 10px 20px rgba(117, 35, 67, 0.15); }
+.c-label { font-size: 0.7rem; font-weight: 600; opacity: 0.8; letter-spacing: 1px; }
+.c-value { font-size: 1.8rem; font-weight: 900; margin-top: 5px; }
+
+/* Contenedores Gráficos Rositas */
+.chart-wrapper-styled { background: #fdf2f2; padding: 30px; border-radius: 35px; margin-bottom: 25px; }
+.chart-wrapper-styled h3 { font-size: 1rem; font-weight: 800; color: #752343; margin-bottom: 20px; }
+.canvas-holder { height: 300px; position: relative; }
