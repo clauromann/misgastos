@@ -1,0 +1,55 @@
+<div id="modalIngreso" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="horizon-title" style="color: var(--burdeos);">REGISTRAR INGRESO</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+        
+        <form method="POST">
+            <div class="form-section">
+                <label class="form-label">Fecha</label>
+                <input type="date" name="fecha" id="fechaInput" required class="form-input">
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Semana</label>
+                <select name="semana" class="form-input">
+                    <option value="1">Semana 1</option>
+                    <option value="2">Semana 2</option>
+                    <option value="3">Semana 3</option>
+                    <option value="4">Semana 4</option>
+                    <option value="5">Semana 5</option>
+                </select>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Categoría</label>
+                <div class="category-selector">
+                    {% for cat in ["Salario", "Paga", "Regalos", "Extras"] %}
+                    <label class="cat-option">
+                        <input type="radio" name="categoria" value="{{ cat }}" {% if loop.first %}checked{% endif %}>
+                        <span>{{ cat }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Concepto (Opcional)</label>
+                <input type="text" name="concepto" placeholder="Ej: Gasolina" class="form-input">
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Importe</label>
+                <div style="position: relative;">
+                    <input type="number" name="cantidad" step="1" placeholder="0" required class="form-input amount-input" style="color: var(--gris-texto) !important;">
+                    <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-weight: bold; color: var(--burdeos);">€</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-confirmar-ingreso" style="background-color: var(--burdeos) !important; color: white; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer;">
+                CONFIRMAR REGISTRO
+            </button>
+        </form>
+    </div>
+</div>

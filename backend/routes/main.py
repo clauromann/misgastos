@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, current_app
 from ..database.models import db, Ingreso, Gasto, Ahorro
 from ..utils import obtener_datos_anuales
 from datetime import datetime
@@ -45,3 +45,12 @@ def index():
                            categorias=gastos_por_cat,
                            labels_cat=nombres_cat,
                            values_cat=totales_cat)
+
+@main_bp.route('/eliminar_ingreso/<int:id>', methods=['DELETE'])
+def eliminar_ingreso(id):
+    # Usamos current_app para que Flask encuentre la base de datos correctamente
+    with current_app.app_context():
+        ingreso = Ingreso.query.get_or_404(id)
+        db.session.delete(ingreso)
+        db.session.commit()
+    return '', 204

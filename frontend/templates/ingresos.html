@@ -1,69 +1,79 @@
 {% extends "layout.html" %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ingresos.css') }}">
-{% endblock %}
-
 {% block content %}
-<div class="main-container">
-    <header class="app-header">
-        <p>Finanzas Personales</p>
-        <h2>Nuevo Ingreso</h2>
-    </header>
-
-    <form method="POST" id="formIngreso">
-        <div class="form-card">
-            <label class="form-label">Mes contable</label>
-            <select name="mes" class="form-select">
-                {% for mes_nombre in meses %}
-                <option value="{{ mes_nombre }}" {{ 'selected' if mes_nombre == mes_actual }}>{{ mes_nombre }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-card">
-            <label class="form-label">Semana del mes</label>
-            <div class="semana-selector">
-                {% for i in range(1, 6) %}
-                <label class="semana-btn">
-                    <input type="radio" name="semana" value="{{ i }}" required>
-                    <span class="btn-content">Sem {{ i }}</span>
-                </label>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="form-card">
-            <div style="margin-bottom: 20px;">
-                <label class="form-label">Concepto</label>
-                <input type="text" name="concepto" placeholder="Ej. Nómina" required class="form-input">
-            </div>
-            <div>
-                <label class="form-label">Importe total (€)</label>
-                <input type="number" id="cantidadInput" name="cantidad" step="0.01" placeholder="0.00" required class="form-input amount-input">
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn-ingreso">
-            Confirmar Ingreso
+<div class="ingresos-container">
+    
+    <div class="month-selector-wrapper">
+        {% for m in meses %}
+        <button onclick="cambiarMes('{{ m }}')" class="month-btn {% if m == mes_actual %}active{% endif %}">
+            {{ m }}
         </button>
-    </form>
-
-    <div class="history-section">
-        <h3 class="section-title" style="margin: 30px 0 15px 5px;">Movimientos recientes</h3>
-        {% for ing in ingresos %}
-        <div class="history-item">
-            <div class="history-info">
-                <strong style="font-size: 1.05rem;">{{ ing.concepto }}</strong>
-                <small style="color: #a0a0a0;">{{ ing.mes }} • Semana {{ ing.semana }}</small>
-            </div>
-            <div class="history-amount">+{{ "%.2f"|format(ing.cantidad) }}€</div>
-        </div>
         {% endfor %}
     </div>
+
+    <h1 class="main-title">INGRESOS {{ mes_actual|upper }}</h1>
+
+    <div class="dashboard-content">
+        <div class="chart-card-full">
+            <p class="card-label">Evolución Semanal</p>
+            <div class="canvas-wrapper">
+                <canvas id="chartSemanas"></canvas>
+            </div>
+        </div>
+
+        <div class="mid-row">
+            <div class="chart-card-half">
+                <p class="card-label">Reparto por Categoría</p>
+                <div class="canvas-wrapper">
+                    <canvas id="chartCategorias"></canvas>
+                </div>
+            </div>
+            
+            <div class="total-summary-card">
+                <span class="total-label">TOTAL MES</span>
+                <span class="total-value">{{ "%.0f"|format(total_mes) }}€</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="history-section">
+        <h2 class="history-title">Últimos Movimientos</h2>
+        <div class="history-list">
+            {% for ing in ingresos[:5] %}
+            <div class="history-item">
+                <div class="h-info">
+                    <span class="h-date">{{ ing.fecha.strftime('%d/%m') }}</span>
+                    <span class="h-cat">{{ ing.categoria }}</span>
+                    <span class="h-concept">{{ ing.concepto or '-' }}</span>
+                </div>
+                <div class="h-right-side">
+                    <span class="h-amount">+{{ "%.2f"|format(ing.cantidad) }}€</span>
+                    <button class="btn-delete" onclick="eliminarIngreso('{{ ing.id }}')">
+                        &times;
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button class="fab-add" id="openModal" type="button">+</button>
 </div>
+
+{% include 'modals/form_ingreso.html' %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ingresos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form_ingreso.css') }}">
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labelsCat = {{ labels_cat|tojson }};
+    const valuesCat = {{ values_cat|tojson }};
+    const dataSem = {{ datos_semanales|tojson }};
+</script>
 <script src="{{ url_for('static', filename='js/ingresos.js') }}"></script>
 {% endblock %}
