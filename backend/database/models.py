@@ -19,8 +19,14 @@ class Gasto(db.Model):
     concepto = db.Column(db.String(100))
     cantidad = db.Column(db.Float, nullable=False)
 
+class Hucha(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(50), unique=True, nullable=False)
+
 class Ahorro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     concepto = db.Column(db.String(100))
     cantidad = db.Column(db.Float, nullable=False)
-    fecha = db.Column(db.DateTime, default=datetime.utcnow)
+    categoria = db.Column(db.String(50), nullable=False) # Aquí irá el nombre de la hucha
+    fecha = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    mes = db.Column(db.String(20), nullable=False)

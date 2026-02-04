@@ -1,25 +1,81 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div style="padding: 20px;">
-    <div style="background: linear-gradient(135deg, #f1c40f, #f39c12); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-        <i class="fas fa-piggy-bank" style="font-size: 3rem; margin-bottom: 10px;"></i>
-        <h2 style="margin: 0;">Mi Tesoro</h2>
-        <h1 style="margin: 5px 0; font-size: 2.5rem;">{{ total }}€</h1>
+<div class="ingresos-container">
+    
+    <div class="month-selector-wrapper">
+        {% for m in meses %}
+        <button onclick="window.location.href='/ahorros?mes={{ m }}'" 
+                class="month-btn {% if m == mes_actual %}active{% endif %}">
+            {{ m }}
+        </button>
+        {% endfor %}
     </div>
 
-    <form method="POST" style="background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px;">
-        <input type="text" name="concepto" placeholder="¿De dónde viene el dinero?" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-        <input type="number" name="cantidad" step="0.01" placeholder="Cantidad €" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
-        <button type="submit" style="width: 100%; background: #2ecc71; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold;">Añadir al Cofre</button>
-    </form>
+    <h1 class="main-title">AHORROS {{ mes_actual|upper }}</h1>
 
-    <h3>Últimos movimientos</h3>
-    {% for ahorro in ahorros %}
-    <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #f1c40f;">
-        <span>{{ ahorro.concepto }}</span>
-        <strong style="color: #27ae60;">+{{ ahorro.cantidad }}€</strong>
+    <div class="huchas-grid">
+        {% for h in huchas %}
+        <div class="hucha-card">
+            <button class="btn-delete-hucha" onclick="eliminarHucha({{ h.id }})" 
+                    style="position: absolute; top: 10px; right: 10px; border: none; background: none; color: var(--burdeos); cursor: pointer; opacity: 0.2;">&times;</button>
+            <span class="hucha-label">{{ h.nombre }}</span>
+            <span class="hucha-amount">{{ "%.2f"|format(h.total) }}€</span>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+
+    <div class="card-form-ahorro">
+        <h3 class="form-title-ahorro">NUEVO MOVIMIENTO</h3>
+        
+        <form method="POST" class="vertical-form">
+            <input type="date" name="fecha" value="{{ hoy }}" required>
+            <select name="categoria" required>
+                <option value="" disabled selected>Seleccionar Hucha</option>
+                {% for h in huchas %}
+                <option value="{{ h.nombre }}">{{ h.nombre }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="concepto" placeholder="Concepto (ej. Ahorro mensual)" required>
+            <input type="number" name="cantidad" step="0.01" placeholder="Importe €" required>
+            <button type="submit" class="btn-submit-ahorro">GUARDAR EN HUCHA</button>
+        </form>
+
+        <div class="form-divider"></div>
+
+        <form method="POST" class="vertical-form">
+            <input type="text" name="nombre_hucha" placeholder="Nombre de nueva hucha..." required>
+            <button type="submit" class="btn-create-hucha" 
+                    style="background: var(--rosa-fondo); color: var(--burdeos); border: none; padding: 12px; border-radius: 15px; font-weight: 800; cursor: pointer;">
+                + CREAR NUEVA HUCHA
+            </button>
+        </form>
+    </div>
+
+    <div class="history-section">
+        <h2 class="history-title">Historial de {{ mes_actual }}</h2>
+        <div class="history-list">
+            {% for a in ahorros %}
+            <div class="history-item">
+                <div class="h-info">
+                    <span class="h-date">{{ a.fecha.strftime('%d/%m') }}</span>
+                    <span class="h-cat">{{ a.categoria }}</span>
+                    <span class="h-concept">{{ a.concepto }}</span>
+                </div>
+                <div class="h-right-side">
+                    <span class="h-amount">+{{ "%.2f"|format(a.cantidad) }}€</span>
+                    <button class="btn-delete" onclick="eliminarAhorro({{ a.id }})">&times;</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/ahorros.js') }}"></script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ingresos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ahorros.css') }}">
 {% endblock %}
