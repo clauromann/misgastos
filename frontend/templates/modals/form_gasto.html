@@ -1,0 +1,59 @@
+<div id="modalGasto" class="modal-overlay theme-gasto">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="horizon-title">NUEVO GASTO</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+
+        <form id="formGasto" action="/nuevo_gasto" method="POST">
+            <div class="form-section">
+                <label class="form-label">Fecha</label>
+                <input type="date" name="fecha" value="{{ hoy }}" required class="form-input">
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Semana</label>
+                <select name="semana" class="form-input">
+                    {% for i in range(1, 6) %}
+                    <option value="{{ i }}">Semana {{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Categoría Principal</label>
+                <div class="category-selector">
+                    {% for cat in categorias %}
+                    <label class="cat-option">
+                        <input type="radio" name="categoria" value="{{ cat.nombre }}" data-id="{{ cat.id }}" required>
+                        <span>{{ cat.nombre }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="subcat-wrapper" class="form-section" style="display: none;">
+                <label class="form-label">Subcategoría</label>
+                <select name="subcategoria" id="select-subcat" class="form-input">
+                    </select>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Concepto</label>
+                <input type="text" name="concepto" placeholder="¿En qué has gastado?" class="form-input" required>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">Importe</label>
+                <div style="position: relative;">
+                    <input type="number" name="cantidad" step="0.01" placeholder="0.00" required class="form-input amount-input">
+                    <span class="currency-symbol" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-weight: bold;">€</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-confirmar">
+                CONFIRMAR GASTO
+            </button>
+        </form>
+    </div>
+</div>

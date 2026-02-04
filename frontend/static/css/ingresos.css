@@ -32,9 +32,10 @@ body {
     border-radius: 20px;
     border: none;
     background: transparent;
-    color: var(--gris-suave);
+    color: #bbb; /* Este es el cambio clave para que se vea como en gastos */
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
 .month-btn.active {

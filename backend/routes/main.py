@@ -15,7 +15,7 @@ def index():
 
     # --- DATOS DEL MES ---
     ing_mes = db.session.query(db.func.sum(Ingreso.cantidad)).filter(Ingreso.mes == mes_seleccionado).scalar() or 0
-    gas_mes = db.session.query(db.func.sum(Gasto.cantidad)).filter(db.func.extract('month', Gasto.fecha) == mes_num).scalar() or 0
+    gas_mes = db.session.query(db.func.sum(Gasto.cantidad)).filter(Gasto.mes == mes_seleccionado).scalar() or 0
 
     # --- BALANCE AÑO (Acumulado Real) ---
     total_ing_año = db.session.query(db.func.sum(Ingreso.cantidad)).scalar() or 0
@@ -45,12 +45,3 @@ def index():
                            categorias=gastos_por_cat,
                            labels_cat=nombres_cat,
                            values_cat=totales_cat)
-
-@main_bp.route('/eliminar_ingreso/<int:id>', methods=['DELETE'])
-def eliminar_ingreso(id):
-    # Usamos current_app para que Flask encuentre la base de datos correctamente
-    with current_app.app_context():
-        ingreso = Ingreso.query.get_or_404(id)
-        db.session.delete(ingreso)
-        db.session.commit()
-    return '', 204

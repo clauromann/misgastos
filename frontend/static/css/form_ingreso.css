@@ -1,3 +1,16 @@
+/* ==========================================================================
+   FORM_INGRESO.CSS (Estilo Unificado para Ingresos y Gastos)
+   ========================================================================== */
+
+:root {
+    --burdeos: #752343;
+    --burdeos-hover: #5d1c35;
+    --gris-texto: #444;
+    --gris-suave: #f8f8f8;
+    --blanco: #ffffff;
+    --borde: #f0f0f0;
+}
+
 /* Contenedor del Modal */
 .modal-overlay {
     display: none;
@@ -5,15 +18,15 @@
     z-index: 2000;
     left: 0; top: 0;
     width: 100%; height: 100%;
-    background: rgba(45, 5, 16, 0.4); /* Un toque berenjena transparente */
-    backdrop-filter: blur(8px); /* Efecto cristal de fondo */
+    background: rgba(45, 5, 16, 0.4);
+    backdrop-filter: blur(8px);
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content {
-    background: #ffffff;
+    background: var(--blanco);
     padding: 40px;
     border-radius: 35px;
     width: 95%;
@@ -30,55 +43,54 @@
 }
 
 .modal-header .horizon-title {
-    font-size: 1.8rem;
-    letter-spacing: -1px;
-    color: #752343;
-    margin: 0;
-}
-
-.close-modal {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    font-size: 24px;
-    color: #ccc;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.close-modal:hover { color: #752343; }
-
-/* Estilo de los Campos */
-.form-section { margin-bottom: 20px; }
-
-.form-label {
-    display: block;
-    font-size: 0.75rem;
+    font-size: 1.6rem;
     font-weight: 800;
-    color: #752343;
-    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    color: var(--burdeos);
+    margin: 0;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-.form-input {
+/* Inputs, Selects y Textareas */
+.form-input, 
+.minimal-select, 
+.full-input,
+input[type="date"],
+input[type="number"],
+input[type="text"],
+select {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid #f8f8f8;
-    border-radius: 16px;
-    background: #fdfdfd;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid var(--borde);
+    background: var(--gris-suave);
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    color: #333;
-    transition: all 0.3s;
+    font-weight: 600;
+    color: var(--gris-texto);
+    margin-bottom: 15px;
     box-sizing: border-box;
+    transition: all 0.3s;
 }
 
-.form-input:focus {
+.form-input:focus, 
+.minimal-select:focus,
+.full-input:focus {
     outline: none;
-    border-color: #ffccd5;
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(255, 204, 213, 0.3);
+    border-color: var(--burdeos);
+    background: var(--blanco);
+    box-shadow: 0 5px 15px rgba(117, 35, 67, 0.05);
+}
+
+/* Labels de sección */
+.section-label, .form-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #bbb;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    display: block;
+    letter-spacing: 1px;
 }
 
 /* Selector de Categorías (Pills) */
@@ -86,59 +98,79 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .cat-option { cursor: pointer; }
-
 .cat-option input { display: none; }
 
 .cat-option span {
     display: inline-block;
     padding: 10px 18px;
-    background: #f8f8f8;
+    background: var(--gris-suave);
     border-radius: 12px;
     font-size: 0.85rem;
-    font-weight: 600;
-    color: #666;
-    transition: all 0.2s;
+    font-weight: 700;
+    color: #888;
+    transition: all 0.2s ease;
 }
 
 .cat-option input:checked + span {
-    background: #752343;
+    background: var(--burdeos);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(117, 35, 67, 0.2);
+    box-shadow: 0 5px 12px rgba(117, 35, 67, 0.2);
 }
 
-/* Campo de Importe Especial */
-.amount-input {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #27ae60; /* Verde para dinero entrante */
-    text-align: center;
-}
-
-/* Botón de Confirmación */
+/* Botón de Confirmar (UNIFICADO) */
+.btn-confirmar-registro, 
+.btn-submit-gasto, 
 .btn-confirmar-ingreso {
     width: 100%;
     padding: 18px;
-    background: #27ae60;
-    color: white;
+    background: var(--burdeos) !important;
+    color: white !important;
     border: none;
     border-radius: 20px;
     font-weight: 800;
     font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
-    margin-top: 25px;
-    box-shadow: 0 10px 20px rgba(39, 174, 96, 0.2);
+    margin-top: 20px;
+    box-shadow: 0 10px 20px rgba(117, 35, 67, 0.2);
     transition: all 0.3s;
+    text-transform: uppercase;
 }
 
-.btn-confirmar-ingreso:hover {
-    background: #219150;
+.btn-confirmar-registro:hover, 
+.btn-submit-gasto:hover {
+    background: var(--burdeos-hover) !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(39, 174, 96, 0.3);
+    box-shadow: 0 12px 25px rgba(117, 35, 67, 0.3);
+}
+
+/* Botón de Cerrar Modal */
+.close-modal {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ccc;
+    background: none;
+    border: none;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: var(--burdeos);
+}
+
+/* Importe Especial */
+.amount-input {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--gris-texto) !important;
 }
 
 @keyframes fadeIn {

@@ -1,6 +1,7 @@
 from flask import Flask
 from .database.models import db
 import os
+from .routes.gastos import inicializar_categorias
 
 def create_app():
     app = Flask(__name__, 
@@ -24,5 +25,6 @@ def create_app():
         app.register_blueprint(ahorros_bp)
 
         db.create_all()
+        inicializar_categorias()  # Asegúrate de que esta función esté definida en gastos.py
 
     return app

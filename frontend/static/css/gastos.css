@@ -1,0 +1,125 @@
+/* Selector de Meses (Restaurado) */
+.month-selector-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+}
+
+.month-btn {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: none;
+    background: transparent;
+    color: #bbb; /* Antes no se veía bien, ahora sí */
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.month-btn.active {
+    background: #752343;
+    color: white;
+}
+
+/* Estructura de Gráficos */
+.substats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 80px; /* Espacio con respecto a la sección superior */
+    padding-bottom: 50px;
+}
+
+.chart-card-mini {
+    background: #fff;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    min-height: 250px; /* Asegura que el canvas sea visible */
+}
+
+.chart-card-mini canvas {
+    max-height: 200px !important; /* Limita el alto para que no se deformen */
+}
+
+/* Ajuste del Botón Flotante en Gastos */
+.fab-add {
+    background: #752343 !important; /* Mantenemos el burdeos corporativo */
+}
+
+.admin-categories-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn-toggle-admin {
+    background: none;
+    border: 2px solid #eee;
+    color: #bbb;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-toggle-admin:hover {
+    border-color: var(--burdeos);
+    color: var(--burdeos);
+}
+
+.admin-panel-content {
+    margin-top: 20px;
+    background: #fdfdfd;
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid #f0f0f0;
+    animation: fadeIn 0.4s ease;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    text-align: left;
+}
+
+.admin-cat-card {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.admin-cat-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--rosa-fondo);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    color: var(--burdeos);
+}
+
+.admin-sub-list {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-sub-list li {
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: #666;
+}
+
+.btn-del-mini, .btn-del-sub {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-del-mini:hover, .btn-del-sub:hover { color: #e74c3c; }

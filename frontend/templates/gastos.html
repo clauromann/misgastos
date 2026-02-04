@@ -1,43 +1,135 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div style="padding: 20px;">
-    <h2>💸 Nuevo Gasto</h2>
-
-    <form method="POST" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <label>¿Qué día fue?</label>
-        <input type="date" name="fecha" id="fecha_hoy" required style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
-
-        <label>Categoría</label>
-        <select name="categoria" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
-            {% for cat in categorias %}
-            <option value="{{ cat }}">{{ cat }}</option>
-            {% endfor %}
-        </select>
-
-        <label>¿En qué? (Concepto)</label>
-        <input type="text" name="concepto" placeholder="Ej: Cena, Netflix, Camiseta..." required style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
-
-        <label>Cantidad (€)</label>
-        <input type="number" name="cantidad" step="0.01" placeholder="0.00" required style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 1.2rem;">
-
-        <button type="submit" style="width: 100%; background: #e74c3c; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold;">Registrar Gasto</button>
-    </form>
-
-    <h3 style="margin-top: 30px;">Últimos Gastos</h3>
-    {% for gasto in gastos %}
-    <div style="background: white; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <strong>{{ gasto.concepto }}</strong> <br>
-            <small style="color: #95a5a6;">{{ gasto.categoria }} | {{ gasto.fecha.strftime('%d %b') }}</small>
-        </div>
-        <span style="color: #e74c3c; font-weight: bold;">-{{ gasto.cantidad }}€</span>
+<div class="ingresos-container">
+    
+    <div class="month-selector-wrapper">
+        {% for m in meses %}
+        <button onclick="window.location.href='/gastos?mes={{ m }}'" class="month-btn {% if m == mes_actual %}active{% endif %}">
+            {{ m }}
+        </button>
+        {% endfor %}
     </div>
-    {% endfor %}
+
+    <h1 class="main-title">GASTOS {{ mes_actual|upper }}</h1>
+
+    <div class="dashboard-content">
+        <div class="chart-card-full">
+            <p class="card-label">Evolución Semanal</p>
+            <div class="canvas-wrapper"><canvas id="chartSemanas"></canvas></div>
+        </div>
+
+        <div class="mid-row">
+            <div class="chart-card-half">
+                <p class="card-label">Reparto por Categoría</p>
+                <div class="canvas-wrapper"><canvas id="chartCategorias"></canvas></div>
+            </div>
+            
+            <div class="total-summary-card">
+                <span class="total-label">TOTAL GASTADO</span>
+                <span class="total-value">-{{ "%.2f"|format(total_mes) }}€</span>
+            </div>
+        </div>
+
+        <div class="substats-grid">
+            {% for cat, subs in stats_sub.items() %}
+            <div class="chart-card-mini">
+                <p class="card-label">{{ cat|upper }}</p>
+                <canvas id="chart_sub_{{ loop.index }}"></canvas>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card-form" style="margin-top: 40px; background: #fff; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+        <h3 style="color: var(--burdeos); font-weight: 800; margin-bottom: 20px;">NUEVA CATEGORÍA / SUBCATEGORÍA</h3>
+        
+        <form action="/gastos/nueva_categoria" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="text" name="nombre" placeholder="Nombre Categoría Principal (ej: Ocio)" class="minimal-select" style="flex-grow: 1;" required>
+            <button type="submit" class="month-btn active" style="background: #444; border-radius: 15px;">+ CATEGORÍA</button>
+        </form>
+
+        <form action="/gastos/nueva_subcategoria" method="POST" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px;">
+            <input type="text" name="nombre_sub" placeholder="Nombre Subcategoría (ej: Restaurante)" class="minimal-select" required>
+            <select name="categoria_padre_id" class="minimal-select" required>
+                <option value="">Selecciona Categoría Madre...</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="month-btn active" style="border-radius: 15px;">+ SUBCATEGORÍA</button>
+        </form>
+    </div>
+
+    <div class="admin-categories-section">
+        <button class="btn-toggle-admin" onclick="toggleAdmin()">
+            <i class="fas fa-cog"></i> ADMINISTRAR CATEGORÍAS ACTUALES
+        </button>
+
+        <div id="admin-panel" class="admin-panel-content" style="display: none;">
+            <div class="admin-grid">
+                {% for cat in categorias %}
+                <div class="admin-cat-card">
+                    <div class="admin-cat-header">
+                        <strong>{{ cat.nombre }}</strong>
+                        <button class="btn-del-mini" onclick="eliminarCatPrincipal({{ cat.id }})" title="Eliminar Categoría">&times;</button>
+                    </div>
+                    <ul class="admin-sub-list">
+                        {% for sub in cat.subcategorias %}
+                        <li>
+                            {{ sub.nombre }}
+                            <button class="btn-del-sub" onclick="eliminarSubcategoria({{ sub.id }})" title="Eliminar Subcategoría">&times;</button>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="history-section">
+        <h2 class="history-title">Movimientos de {{ mes_actual }}</h2>
+        <div class="history-list">
+            {% for g in gastos %}
+            <div class="history-item">
+                <div class="h-info">
+                    <span class="h-date">{{ g.fecha.strftime('%d/%m') }}</span>
+                    <span class="h-cat" style="background: #fdf2f2; color: #e74c3c;">{{ g.categoria }}</span>
+                    <span class="h-concept">{{ g.concepto }} <small style="color: #bbb;">({{ g.subcategoria }})</small></span>
+                </div>
+                <div class="h-right-side">
+                    <span class="h-amount" style="color: #e74c3c;">-{{ "%.2f"|format(g.cantidad) }}€</span>
+                    <button class="btn-delete" onclick="eliminarGasto({{ g.id }})">&times;</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button class="fab-add" id="openModal" style="background: #e74c3c;">+</button>
 </div>
 
+{% include 'modals/form_gasto.html' %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ingresos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form_ingreso.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gastos.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    // Poner la fecha de hoy por defecto
-    document.getElementById('fecha_hoy').valueAsDate = new Date();
+    const dataSem = {{ data_sem|tojson if data_sem else [] }};
+    const labelsCat = {{ labels_cat|tojson if labels_cat else [] }};
+    const valuesCat = {{ values_cat|tojson if values_cat else [] }};
+    const statsSub = {{ stats_sub|tojson if stats_sub else {} }};
+    
+    console.log("Datos de Python inyectados correctamente");
 </script>
+
+<script src="{{ url_for('static', filename='js/gastos.js') }}"></script>
 {% endblock %}
