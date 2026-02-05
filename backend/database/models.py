@@ -29,6 +29,7 @@ class Gasto(db.Model):
     concepto = db.Column(db.String(100))
     categoria = db.Column(db.String(50), nullable=False)
     subcategoria = db.Column(db.String(50), nullable=False)
+    semana = db.Column(db.Integer, nullable=False)
     mes = db.Column(db.String(20), nullable=False)
 
 class Hucha(db.Model):

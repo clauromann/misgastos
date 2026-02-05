@@ -16,9 +16,9 @@ def lista_gastos():
     # 1. Lógica de Evolución Semanal
     data_sem = [0, 0, 0, 0, 0]
     for g in gastos_mes:
-        dia = g.fecha.day
-        # Dividir el mes en 4-5 semanas
-        indice = min((dia - 1) // 7, 4)
+        # Usamos g.semana que es lo que guardamos manualmente
+        # Restamos 1 porque las listas en Python empiezan en 0
+        indice = min(max(g.semana - 1, 0), 4) 
         data_sem[indice] += float(g.cantidad)
 
     # 2. Datos para gráfico de Reparto (Categorías Madre)
@@ -68,6 +68,7 @@ def nuevo_gasto():
     fecha = datetime.strptime(fecha_str, '%Y-%m-%d')
     meses_es = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     mes_nombre = meses_es[fecha.month - 1]
+    semana_manual = int(request.form.get('semana'))
 
     nuevo = Gasto(
         concepto=concepto, 
@@ -75,6 +76,7 @@ def nuevo_gasto():
         fecha=fecha, 
         mes=mes_nombre, 
         categoria=categoria, 
+        semana=semana_manual,
         subcategoria=subcategoria
     )
     db.session.add(nuevo)

@@ -44,9 +44,16 @@
     <div class="card-form" style="margin-top: 40px; background: #fff; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
         <h3 style="color: var(--burdeos); font-weight: 800; margin-bottom: 20px;">NUEVA CATEGORÍA / SUBCATEGORÍA</h3>
         
-        <form action="/gastos/nueva_categoria" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <input type="text" name="nombre" placeholder="Nombre Categoría Principal" class="minimal-select" style="flex-grow: 1;" required>
-            <button type="submit" class="month-btn active" style="background: #444; border-radius: 15px;">+ CATEGORÍA</button>
+        <form action="/gastos/nueva_categoria" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px; width: 100%;">
+            <input type="text" name="nombre" placeholder="Nombre Categoría Principal" 
+                class="minimal-select" 
+                style="flex-grow: 1; padding: 12px; border-radius: 15px; border: 1px solid #eee;" 
+                required>
+            
+            <button type="submit" class="month-btn active" 
+                    style="background: #444; border-radius: 15px; white-space: nowrap; padding: 0 20px;">
+                + CATEGORÍA
+            </button>
         </form>
 
         <form action="/gastos/nueva_subcategoria" method="POST" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px;">
