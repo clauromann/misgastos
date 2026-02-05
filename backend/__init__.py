@@ -2,6 +2,7 @@ from flask import Flask
 from .database.models import db
 import os
 from .routes.gastos import inicializar_categorias
+from flask_migrate import Migrate
 
 def create_app():
     app = Flask(__name__, 
@@ -12,6 +13,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
+    migrate=Migrate(app, db)
 
     with app.app_context():
         from .routes.main import main_bp
@@ -24,7 +26,8 @@ def create_app():
         app.register_blueprint(gastos_bp)  # Registro vital para que funcione el menú
         app.register_blueprint(ahorros_bp)
 
-        db.create_all()
+        if not os.path.exists('sqlite:///misgastos.db'):
+            db.create_all()
         inicializar_categorias()  # Asegúrate de que esta función esté definida en gastos.py
 
     return app
