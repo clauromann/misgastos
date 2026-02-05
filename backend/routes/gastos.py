@@ -124,3 +124,43 @@ def nueva_subcategoria():
         db.session.add(nueva)
         db.session.commit()
     return redirect(url_for('gastos.lista_gastos'))
+
+@gastos_bp.route('/gastos/eliminar_categoria/<int:id>', methods=['DELETE'])
+@login_required
+def eliminar_categoria(id):
+    # Buscamos la categoría asegurándonos de que sea del usuario logueado
+    categoria = CategoriaGasto.query.filter_by(id=id, user_id=current_user.id).first()
+    
+    if categoria:
+        try:
+            # Al tener cascade="all, delete-orphan" en el modelo, 
+            # SQLAlchemy borrará automáticamente las subcategorías.
+            # Pero los Gastos no se borran solos porque no tienen relación directa con el ID de categoría.
+            # Limpiamos los gastos que usen este nombre de categoría para evitar errores de integridad.
+            Gasto.query.filter_by(categoria=categoria.nombre, user_id=current_user.id).delete()
+            
+            db.session.delete(categoria)
+            db.session.commit()
+            return '', 204
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 500
+            
+    return jsonify({"error": "Categoría no encontrada"}), 404
+
+@gastos_bp.route('/gastos/eliminar_subcategoria/<int:id>', methods=['DELETE'])
+@login_required
+def eliminar_subcategoria(id):
+    # Verificamos que la subcategoría pertenezca al usuario
+    sub = SubcategoriaGasto.query.filter_by(id=id, user_id=current_user.id).first()
+    
+    if sub:
+        try:
+            db.session.delete(sub)
+            db.session.commit()
+            return '', 204
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 500
+            
+    return jsonify({"error": "Subcategoría no encontrada"}), 404

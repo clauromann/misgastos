@@ -1,48 +1,76 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mi Perfil - Vidda</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
-</head>
-<body>
-    <div class="auth-container" style="max-width: 500px;">
-        <h2>Mi Perfil en <span>Vidda</span></h2>
-        
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
+{% extends "layout.html" %}
 
-        <form method="POST" style="margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <i class="fas fa-fingerprint"></i>
+        <h1>Hola, {{ current_user.username }}</h1>
+        <p>Tu rincón privado en Vidda</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" style="text-align:center; margin-bottom:20px; font-size:0.9rem;">
+              {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="profile-section">
+        <h3>¿Quieres cambiar tu nombre de usuario?</h3>
+        <form method="POST">
             <input type="hidden" name="action" value="update_username">
-            <div class="form-group">
-                <label>Nombre de Usuario</label>
-                <input type="text" name="username" value="{{ current_user.username }}" required>
+            <div class="input-group">
+                <label>Nombre actual: {{ current_user.username }}</label>
+                <input type="text" name="username" class="main-input" placeholder="Escribe el nuevo..." required>
             </div>
-            <button type="submit" class="btn-auth">Actualizar Nombre</button>
+            <div class="btn-flex">
+                <button type="submit" class="btn-vidda btn-primary">Actualizar nombre</button>
+            </div>
         </form>
+    </div>
 
+    <div class="profile-section">
+        <h3>Cambiar contraseña</h3>
         <form method="POST">
             <input type="hidden" name="action" value="update_password">
-            <h3 style="color: #752343; font-size: 1rem;">Cambiar Contraseña</h3>
-            <div class="form-group">
-                <label>Contraseña Actual</label>
-                <input type="password" name="old_password" required placeholder="••••••••">
+            <div class="input-group">
+                <input type="password" name="old_password" class="main-input" placeholder="Contraseña actual" required>
             </div>
-            <div class="form-group">
-                <label>Nueva Contraseña</label>
-                <input type="password" name="new_password" required placeholder="••••••••">
+            <div class="input-group">
+                <input type="password" name="new_password" class="main-input" placeholder="Nueva contraseña" required>
             </div>
-            <button type="submit" class="btn-auth" style="background-color: #333;">Cambiar Contraseña</button>
+            <div class="btn-flex">
+                <button type="submit" class="btn-vidda btn-primary">Guardar cambios</button>
+            </div>
         </form>
-
-        <div class="auth-footer">
-            <a href="{{ url_for('main.dashboard') }}">← Volver al Dashboard</a>
-        </div>
     </div>
-</body>
-</html>
+
+    <a href="{{ url_for('auth.logout') }}" class="btn-vidda btn-logout">
+        <i class="fas fa-power-off"></i> Cerrar sesión
+    </a>
+
+    <div class="danger-zone">
+        <span class="danger-text">Piénsalo bien, tus recuerdos financieros se borrarán para siempre...</span>
+        <a href="#" onclick="confirmarEliminar()" class="btn-delete-link">
+            Eliminar mi cuenta definitivamente
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function confirmarEliminar() {
+    if (confirm("¿De verdad quieres romper con Vidda? Esta acción no tiene vuelta atrás.")) {
+        window.location.href = "{{ url_for('profile.delete_account') }}";
+    }
+}
+</script>
+{% endblock %}

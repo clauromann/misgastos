@@ -1,0 +1,125 @@
+.profile-container {
+    padding: 25px 20px;
+    padding-bottom: 110px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-header i {
+    font-size: 3.5rem;
+    color: #752343;
+    background: #fdf2f6;
+    padding: 20px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.profile-header h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; margin: 0; }
+.profile-header p { color: #888; font-size: 0.9rem; margin-top: 5px; }
+
+.profile-section {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(117, 35, 67, 0.05);
+}
+
+.profile-section h3 {
+    font-size: 1.05rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Inputs y botones más elegantes */
+.input-group { 
+    margin-bottom: 20px; /* Más separación entre grupos de inputs */
+}
+
+.input-group label { 
+    display: block; 
+    font-size: 0.85rem; 
+    color: #555; /* Un poco más oscuro para que se lea mejor */
+    margin-bottom: 10px; /* ¡ESTO separa las letras del input! */
+    margin-left: 5px; 
+    font-weight: 600;
+}
+
+/* Esta es la clase que controla el ancho y alto del cuadro de texto */
+.main-input {
+    width: 100%;
+    padding: 15px 20px; /* Aumentamos el relleno interno para que sea más ancho */
+    border: 1.5px solid #eee;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Evita que el input se salga de la caja */
+    background-color: #f9f9f9;
+}
+
+.main-input:focus {
+    outline: none;
+    border-color: #752343;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(117, 35, 67, 0.05);
+}
+
+.btn-flex {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-vidda {
+    padding: 10px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary { background: #752343; color: white; }
+.btn-primary:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(117, 35, 67, 0.2); }
+
+.btn-logout { 
+    background: transparent; 
+    color: #752343; 
+    border: 1px solid #752343; 
+    margin: 0 auto;
+    display: block;
+    width: fit-content;
+}
+
+.danger-zone {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+}
+
+.danger-text {
+    font-size: 0.85rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.btn-delete-link {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    opacity: 0.7;
+}
+
+.btn-delete-link:hover { opacity: 1; }

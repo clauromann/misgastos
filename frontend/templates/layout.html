@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MisGastos 2026</title>
+    <title>Vidda - MisGastos 2026</title>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
     {% block extra_css %}{% endblock %}
@@ -19,8 +17,9 @@
         {% block content %}{% endblock %}
     </main>
 
+    {% if current_user.is_authenticated %}
     <nav class="bottom-nav">
-        <a href="{{ url_for('main.index') }}" class="nav-item {{ 'active' if request.endpoint == 'main.index' }}">
+        <a href="{{ url_for('main.dashboard') }}" class="nav-item {{ 'active' if request.endpoint == 'main.dashboard' }}">
             <i class="fas fa-home"></i>
             <span>Inicio</span>
         </a>
@@ -28,18 +27,22 @@
             <i class="fas fa-wallet"></i>
             <span>Ingresos</span>
         </a>
-        <a href="{{ url_for('gastos.lista_gastos') }}" class="nav-item {{ 'active' if request.endpoint == 'gastos.gestionar_gastos' }}">
+        <a href="{{ url_for('gastos.lista_gastos') }}" class="nav-item {{ 'active' if request.endpoint == 'gastos.lista_gastos' }}">
             <i class="fas fa-shopping-cart"></i>
             <span>Gastos</span>
         </a>
         <a href="{{ url_for('ahorros.lista_ahorros') }}" class="nav-item {{ 'active' if request.endpoint == 'ahorros.lista_ahorros' }}">
             <i class="fas fa-piggy-bank"></i>
-            <span>Ahorros</span>
+            <span>Huchas</span>
+        </a>
+        <a href="{{ url_for('profile.view_profile') }}" class="nav-item {{ 'active' if request.endpoint == 'profile.view_profile' }}">
+            <i class="fas fa-user-circle"></i>
+            <span>Perfil</span>
         </a>
     </nav>
+    {% endif %}
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
     {% block extra_js %}{% endblock %}
 
 </body>
