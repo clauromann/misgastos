@@ -54,6 +54,16 @@ body {
 
 /* Gráficos */
 .chart-card-full { background: var(--rosa-fondo); padding: 25px; border-radius: 30px; height: 300px; margin-bottom: 20px; }
+.chart-card-half .card-label, 
+.chart-card-full .card-label {
+    color: #752343; /* Color Burdeos */
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px; /* Más espacio debajo del título */
+    display: block;
+}
 .mid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 260px; margin-bottom: 40px; }
 .chart-card-half { background: var(--rosa-fondo); padding: 25px; border-radius: 30px; }
 .card-internal-title { color: var(--burdeos); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
@@ -66,7 +76,7 @@ body {
 
 /* --- HISTORIAL MINIMALISTA (CORREGIDO) --- */
 .history-section {
-    margin-top: 80px;      /* Aumentamos el espacio con los gráficos */
+    margin-top: 160px;      /* Aumentamos el espacio con los gráficos */
     padding-bottom: 100px; /* Espacio para que el botón + no tape la última fila */
     max-width: 900px;      /* Alineado con el ancho de los gráficos */
     margin-left: auto;
@@ -126,25 +136,31 @@ body {
     font-size: 1.1rem;
 }
 
-/* BOTÓN + (FIXED Y ARRIBA DE TODO) */
+/* Ajuste para que el botón + flote sobre la barra inferior */
 .fab-add {
-    position: fixed !important;
-    bottom: 30px !important;
-    right: 30px !important;
-    width: 65px;
-    height: 65px;
-    background: var(--burdeos);
-    color: white;
-    border: none;
+    position: fixed;
+    bottom: 100px; /* Lo subimos de 20px a 100px para que libre la barra */
+    right: 30px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    font-size: 35px;
+    border: none;
+    color: #752343;
+    font-size: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     cursor: pointer;
-    z-index: 9999;
+    z-index: 999; /* Por debajo del modal, pero por encima de la barra */
     display: flex;
-    justify-content: center;
     align-items: center;
-    box-shadow: 0 10px 25px rgba(117, 35, 67, 0.3);
+    justify-content: center;
+    transition: transform 0.2s;
 }
+
+.fab-add:active {
+    transform: scale(0.9);
+}
+
 
 /* Asegurar que el modal esté oculto si el CSS del modal falla */
 .modal-overlay {

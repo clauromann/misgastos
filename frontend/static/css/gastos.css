@@ -25,27 +25,69 @@
 /* Estructura de Gráficos */
 .substats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    margin-top: 160px;
+    /* Esto hace que se pongan de 2 en 2 si hay sitio, si no, de 1 en 1 */
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+    /* El auto-rows asegura que la fila crezca si el contenido es alto */
+    grid-auto-rows: auto; 
     gap: 30px;
-    margin-top: 80px; /* Espacio con respecto a la sección superior */
-    padding-bottom: 50px;
+    padding-bottom: 100px;
+    width: 100%;
+    align-items: start; /* Evita que una tarjeta estire a la de al lado */
+}
+.chart-card-mini {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    
+    /* BORDE: Gris fino alrededor y burdeos grueso a la izquierda */
+    border: 1px solid #eeeeee;
+    border-left: 6px solid #752343;
+    
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    
+    /* Asegura que la tarjeta crezca según su contenido */
+    height: auto;
+    min-height: 200px;
+    position: relative;
 }
 
-.chart-card-mini {
-    background: #fff;
-    padding: 25px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-    min-height: 250px; /* Asegura que el canvas sea visible */
+/* Título de la mini tarjeta */
+.chart-card-mini .card-label {
+    color: #752343;
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .chart-card-mini canvas {
     max-height: 200px !important; /* Limita el alto para que no se deformen */
 }
 
-/* Ajuste del Botón Flotante en Gastos */
+/* Ajuste para que el botón + flote sobre la barra inferior */
 .fab-add {
-    background: #752343 !important; /* Mantenemos el burdeos corporativo */
+    position: fixed;
+    bottom: 100px; /* Lo subimos de 20px a 100px para que libre la barra */
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 999; /* Por debajo del modal, pero por encima de la barra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.fab-add:active {
+    transform: scale(0.9);
 }
 
 .admin-categories-section {
