@@ -26,8 +26,8 @@ def create_app():
         app.register_blueprint(gastos_bp)  # Registro vital para que funcione el menú
         app.register_blueprint(ahorros_bp)
 
-        if not os.path.exists('sqlite:///misgastos.db'):
-            db.create_all()
-        inicializar_categorias()  # Asegúrate de que esta función esté definida en gastos.py
+        #if not os.path.exists('sqlite:///misgastos.db'):
+        #   db.create_all()
+        #inicializar_categorias()  # Asegúrate de que esta función esté definida en gastos.py
 
     return app
