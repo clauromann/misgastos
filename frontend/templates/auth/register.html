@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Mis Gastos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Crea tu cuenta</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Únete para empezar a gestionar tus finanzas</p>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Elige un nombre de usuario</label>
+                <input type="text" id="username" name="username" required placeholder="Ej: ana_gastos">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña segura</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-auth">Registrarme ahora</button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Ya tienes una cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</body>
+</html>

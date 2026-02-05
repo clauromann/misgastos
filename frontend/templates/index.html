@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidda - Gestión Financiera</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">VIDDA</div>
+        <div>
+            <a href="{{ url_for('auth.login') }}" style="color: #752343; text-decoration: none; font-weight: 600;">Entrar</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Tus finanzas, con más <span>Vidda</span>.</h1>
+        <p>La forma más sencilla de controlar tus gastos, ahorrar para tus huchas y entender a dónde va tu dinero.</p>
+        
+        <div class="btn-group">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Empezar ahora</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Ya tengo cuenta</a>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hero = document.querySelector('.hero');
+            hero.style.opacity = 0;
+            hero.style.transition = 'opacity 1.5s ease';
+            setTimeout(() => hero.style.opacity = 1, 100);
+        });
+    </script>
+</body>
+</html>
