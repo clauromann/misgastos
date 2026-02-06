@@ -2,33 +2,49 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from config import Config
+from dotenv import load_dotenv # Recuerda instalarlo: pip install python-dotenv
 from .database.models import db, User
 
+# Cargamos las variables del archivo .env (donde pegarás tu DATABASE_URL de Supabase)
+load_dotenv()
 
 def create_app():
     app = Flask(__name__, 
                 static_folder='../frontend/static', 
                 template_folder='../frontend/templates')
     
-    # Cargamos toda la configuración desde config.py (incluyendo DATABASE_URL y SECRET_KEY)
-    app.config.from_object(Config)
+    # 1. CONFIGURACIÓN DE LA BASE DE DATOS
+    # Intentamos obtener la URL de Supabase desde el entorno
+    database_url = os.getenv('DATABASE_URL')
+    
+    if database_url:
+        # Truco técnico: Render y Google Cloud a veces pasan 'postgres://'
+        # pero SQLAlchemy necesita 'postgresql://' para funcionar.
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    else:
+        # Si no hay .env o no hay URL, usamos la base de datos local para no romper nada
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///misgastos.db'
 
-    # Inicializamos la base de datos y las migraciones
+    # Configuración de seguridad básica
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'desarrollo_seguro_vidda_2024')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # 2. INICIALIZACIÓN DE COMPONENTES
     db.init_app(app)
     migrate = Migrate(app, db)
 
     # Configuración del sistema de Login
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'  # Indica a dónde redirigir si no hay sesión
+    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     @login_manager.user_loader
     def load_user(user_id):
-        # Esta función permite a Flask-Login recuperar el objeto usuario por su ID
         return User.query.get(int(user_id))
 
-    # Importamos y registramos los Blueprints
+    # 3. REGISTRO DE BLUEPRINTS (Rutas)
     from .routes.main import main_bp
     from .routes.ingresos import ingresos_bp
     from .routes.gastos import gastos_bp
