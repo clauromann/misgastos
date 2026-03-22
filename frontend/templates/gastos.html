@@ -32,31 +32,25 @@
         </div>
 
         <div class="substats-grid">
-            {% for cat, subs in stats_sub.items() %}
+            {% for item in stats_sub %}
             <div class="chart-card-mini">
-                <p class="card-label">{{ cat|upper }}</p>
+                <p class="card-label">{{ item.categoria|upper }}</p>
                 <canvas id="chart_sub_{{ loop.index }}"></canvas>
             </div>
             {% endfor %}
         </div>
     </div> 
 
-    <div class="card-form" style="margin-top: 40px; background: #fff; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-        <h3 style="color: var(--burdeos); font-weight: 800; margin-bottom: 20px;">NUEVA CATEGORÍA / SUBCATEGORÍA</h3>
+    <div class="card-form">
+        <h3 class="card-form-title">NUEVA CATEGORÍA / SUBCATEGORÍA</h3>
         
-        <form action="/gastos/nueva_categoria" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px; width: 100%;">
+        <form action="/gastos/nueva_categoria" method="POST" class="form-categoria">
             <input type="text" name="nombre" placeholder="Nombre Categoría Principal" 
-                class="minimal-select" 
-                style="flex-grow: 1; padding: 12px; border-radius: 15px; border: 1px solid #eee;" 
-                required>
-            
-            <button type="submit" class="month-btn active" 
-                    style="background: #444; border-radius: 15px; white-space: nowrap; padding: 0 20px;">
-                + CATEGORÍA
-            </button>
+                class="minimal-select" required>
+            <button type="submit" class="btn-submit-categoria">+ CATEGORÍA</button>
         </form>
 
-        <form action="/gastos/nueva_subcategoria" method="POST" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px;">
+        <form action="/gastos/nueva_subcategoria" method="POST" class="form-subcategoria">
             <input type="text" name="nombre_sub" placeholder="Nombre Subcategoría" class="minimal-select" required>
             <select name="categoria_padre_id" class="minimal-select" required>
                 <option value="">Categoría Principal</option>
@@ -64,7 +58,7 @@
                 <option value="{{ cat.id }}">{{ cat.nombre }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="month-btn active" style="border-radius: 15px;">+ SUBCATEGORÍA</button>
+            <button type="submit" class="btn-submit-subcategoria">+ SUBCATEGORÍA</button>
         </form>
     </div>
 
@@ -102,11 +96,11 @@
             <div class="history-item">
                 <div class="h-info">
                     <span class="h-date">{{ g.fecha.strftime('%d/%m') }}</span>
-                    <span class="h-cat" style="background: #fdf2f2; color: #e74c3c;">{{ g.categoria }}</span>
-                    <span class="h-concept">{{ g.concepto }} <small style="color: #bbb;">({{ g.subcategoria }})</small></span>
+                    <span class="h-cat h-cat-gasto">{{ g.categoria }}</span>
+                    <span class="h-concept">{{ g.concepto }} <small class="h-sub">({{ g.subcategoria }})</small></span>
                 </div>
                 <div class="h-right-side">
-                    <span class="h-amount" style="color: #e74c3c;">-{{ "%.2f"|format(g.cantidad) }}€</span>
+                    <span class="h-amount h-amount-gasto">-{{ "%.2f"|format(g.cantidad) }}€</span>
                     <button class="btn-delete" onclick="eliminarGasto({{ g.id }})">&times;</button>
                 </div>
             </div>
@@ -114,7 +108,7 @@
         </div>
     </div>
 
-    <button class="fab-add" id="openModal" style="background: #e74c3c;">+</button>
+    <button class="fab-add fab-add-gasto" id="openModal">+</button>
 </div>
 
 {% include 'modals/form_gasto.html' %}

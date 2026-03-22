@@ -30,3 +30,73 @@
 .chart-wrapper-styled { background: #fdf2f2; padding: 30px; border-radius: 35px; margin-bottom: 25px; }
 .chart-wrapper-styled h3 { font-size: 1rem; font-weight: 800; color: #752343; margin-bottom: 20px; }
 .canvas-holder { height: 300px; position: relative; }
+
+/* --- AJUSTES PARA MÓVIL (Sincronizado con tus capturas) --- */
+@media (max-width: 600px) {
+    .home-container {
+        padding: 15px; /* Menos margen lateral en móvil */
+    }
+
+    .main-year-title {
+        font-size: 3rem; /* Título más pequeño para que no se corte */
+        margin: 15px 0;
+    }
+
+    /* 1. Selector de meses deslizable (Tu petición) */
+    .month-selector-mini {
+        justify-content: flex-start; /* Alinea al principio */
+        overflow-x: auto; /* Permite scroll horizontal */
+        padding: 5px 5px 15px 5px;
+        gap: 12px;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Ocultar barra de scroll para estética */
+    .month-selector-mini::-webkit-scrollbar {
+        display: none;
+    }
+
+    .m-dot {
+        flex: 0 0 auto; /* Evita que los círculos se aplasten */
+        width: 40px; 
+        height: 40px;
+    }
+
+    /* 2. Totales (Ingresos/Gastos) en vertical */
+    .month-stats-box {
+        flex-direction: column; /* Uno debajo de otro */
+        gap: 20px;
+    }
+
+    .divider {
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 20px 0;
+        width: 100%;
+    }
+
+    .m-stat.main .m-amount {
+        font-size: 1.8rem; /* El disponible un poco más pequeño */
+    }
+
+    /* 3. Tarjetas Anuales (Balance/Ahorro) en una sola columna */
+    .annual-grid {
+        grid-template-columns: 1fr; /* De 2 columnas a 1 */
+        gap: 15px;
+    }
+
+    /* 4. Gráficos uno debajo de otro */
+    .charts-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-wrapper-styled {
+        padding: 15px;
+    }
+
+    .canvas-holder {
+        height: 250px; /* Altura fija para que no se rompa el gráfico */
+    }
+}

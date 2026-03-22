@@ -153,15 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 5. Gráficos Mini de Subcategorías (Los que no salían)
-    if (typeof statsSub !== 'undefined' && statsSub !== null) {
-        Object.entries(statsSub).forEach(([catNombre, data], index) => {
+    // 5. Gráficos Mini de Subcategorías (Sincronizados)
+    if (typeof statsSub !== 'undefined' && Array.isArray(statsSub)) {
+        statsSub.forEach((item, index) => {
             const canvasId = `chart_sub_${index + 1}`; 
             const ctxSub = document.getElementById(canvasId);
             
             if (ctxSub) {
-                const subLabels = Object.keys(data.subcategorias);
-                const subValues = Object.values(data.subcategorias);
+                const subLabels = Object.keys(item.subcategorias);
+                const subValues = Object.values(item.subcategorias);
 
                 new Chart(ctxSub, {
                     type: 'bar',

@@ -31,9 +31,10 @@ def lista_gastos():
     labels_cat = [c[0] for c in stats_cat_raw]
     values_cat = [float(c[1]) for c in stats_cat_raw]
 
-    # 3. Datos para gráficos Mini (Subcategorías del usuario)
-    stats_sub = {}
+    # 3. Datos para gráficos Mini (LISTA ORDENADA PARA EVITAR DESORDEN)
+    stats_sub_list = []
     for cat_nombre in labels_cat:
+        # Consultamos las subcategorías de esta categoría específica
         gastos_sub_raw = db.session.query(
             Gasto.subcategoria, 
             db.func.sum(Gasto.cantidad)
@@ -43,9 +44,21 @@ def lista_gastos():
             Gasto.user_id == uid
         ).group_by(Gasto.subcategoria).all()
         
-        stats_sub[cat_nombre] = {
+        # Creamos un objeto con el nombre y sus datos
+        stats_sub_list.append({
+            "categoria": cat_nombre,
             "subcategorias": {s[0]: float(s[1]) for s in gastos_sub_raw}
-        }
+        })
+
+    return render_template('gastos.html', 
+                           meses=meses_es,
+                           mes_actual=mes_actual,
+                           gastos=gastos_mes,
+                           total_mes=total_mes,
+                           data_sem=data_sem,
+                           labels_cat=labels_cat,
+                           values_cat=values_cat,
+                           stats_sub=stats_sub_list) # Pasamos la lista ordenada
 
     return render_template('gastos.html', 
                            gastos=gastos_mes, 

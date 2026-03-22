@@ -188,3 +188,85 @@ body {
     color: #e74c3c; /* Rojo al pasar el ratón */
     transform: scale(1.2);
 }
+
+/* ===== RESPONSIVE MÓVIL ===== */
+@media (max-width: 600px) {
+
+    /* 1. Contenedor principal sin padding lateral excesivo */
+    .ingresos-container {
+        padding: 15px;
+    }
+
+    /* 2. Selector de meses: deslizable horizontalmente */
+    .month-selector-wrapper {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding: 15px 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .month-selector-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .month-btn {
+        flex: 0 0 auto; /* Evita que los botones se aplasten */
+        white-space: nowrap;
+    }
+
+    /* 3. mid-row: una columna, Total Mes arriba, donut abajo */
+    .mid-row {
+        grid-template-columns: 1fr;
+        height: auto;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column-reverse; /* ← esto pone el Total arriba y el donut abajo */
+    }
+
+    /* 4. Tarjeta Total Mes: visible y con buen tamaño */
+    .total-summary-card {
+        padding: 20px;
+        min-height: 90px;
+    }
+
+    .total-value {
+        font-size: 2rem;
+    }
+
+    .total-label {
+        font-size: 0.75rem;
+    }
+
+    /* 5. Gráfico de evolución semanal: altura razonable */
+    .chart-card-full {
+        height: 220px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* 6. Gráfico de donut: cuadrado y visible */
+    .chart-card-half {
+        padding: 15px;
+    }
+
+    /* El canvas del donut no debe ser demasiado alto */
+    .chart-card-half canvas {
+        max-height: 150px;
+    }
+
+    /* 7. El margen del historial era fijo y rompía el layout */
+    .history-section {
+        margin-top: 30px; /* En vez de 160px hardcodeado */
+    }
+
+    /* 8. Botón flotante + bien posicionado */
+    .fab-add {
+        bottom: 90px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 26px;
+    }
+}

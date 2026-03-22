@@ -1,4 +1,4 @@
-/* Selector de Meses (Restaurado) */
+/* Selector de Meses */
 .month-selector-wrapper {
     display: flex;
     justify-content: center;
@@ -11,7 +11,7 @@
     border-radius: 20px;
     border: none;
     background: transparent;
-    color: #bbb; /* Antes no se veía bien, ahora sí */
+    color: #bbb;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
@@ -26,33 +26,26 @@
 .substats-grid {
     display: grid;
     margin-top: 160px;
-    /* Esto hace que se pongan de 2 en 2 si hay sitio, si no, de 1 en 1 */
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
-    /* El auto-rows asegura que la fila crezca si el contenido es alto */
-    grid-auto-rows: auto; 
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-auto-rows: auto;
     gap: 30px;
     padding-bottom: 100px;
     width: 100%;
-    align-items: start; /* Evita que una tarjeta estire a la de al lado */
+    align-items: start;
 }
+
 .chart-card-mini {
     background: #ffffff;
     border-radius: 20px;
     padding: 20px;
-    
-    /* BORDE: Gris fino alrededor y burdeos grueso a la izquierda */
     border: 1px solid #eeeeee;
     border-left: 6px solid #752343;
-    
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    
-    /* Asegura que la tarjeta crezca según su contenido */
     height: auto;
     min-height: 200px;
     position: relative;
 }
 
-/* Título de la mini tarjeta */
 .chart-card-mini .card-label {
     color: #752343;
     font-weight: 800;
@@ -62,34 +55,127 @@
 }
 
 .chart-card-mini canvas {
-    max-height: 200px !important; /* Limita el alto para que no se deformen */
+    max-height: 200px;
 }
 
-/* Ajuste para que el botón + flote sobre la barra inferior */
+/* Botón flotante + */
 .fab-add {
     position: fixed;
-    bottom: 100px; /* Lo subimos de 20px a 100px para que libre la barra */
+    bottom: 100px;
     right: 30px;
     width: 60px;
     height: 60px;
     border-radius: 50%;
     border: none;
-    color: white;
     font-size: 30px;
     font-weight: bold;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     cursor: pointer;
-    z-index: 999; /* Por debajo del modal, pero por encima de la barra */
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s;
+    color: white;
+}
+
+.fab-add-gasto {
+    background: #e74c3c;
 }
 
 .fab-add:active {
     transform: scale(0.9);
 }
 
+/* Formulario Nueva Categoría */
+.card-form {
+    margin-top: 40px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+.card-form-title {
+    color: var(--burdeos);
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.form-categoria {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.form-subcategoria {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
+}
+
+.minimal-select {
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    font-size: 0.9rem;
+    background: #fafafa;
+}
+
+.form-categoria .minimal-select {
+    flex-grow: 1;
+}
+
+.btn-submit-categoria {
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+.btn-submit-categoria:hover {
+    background: #222;
+}
+
+.btn-submit-subcategoria {
+    background: #752343;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-submit-subcategoria:hover {
+    background: #5a1a33;
+}
+
+/* Historial — colores específicos de gastos */
+.h-cat-gasto {
+    background: #fdf2f2;
+    color: #e74c3c;
+}
+
+.h-amount-gasto {
+    color: #e74c3c;
+}
+
+.h-sub {
+    color: #bbb;
+}
+
+/* Sección admin categorías */
 .admin-categories-section {
     margin-top: 40px;
     text-align: center;
@@ -165,3 +251,173 @@
 }
 
 .btn-del-mini:hover, .btn-del-sub:hover { color: #e74c3c; }
+
+
+/* ===== RESPONSIVE MÓVIL ===== */
+@media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .ingresos-container {
+        overflow-x: hidden;
+        width: 100%;
+        padding: 15px;
+    }
+
+    /* Selector de meses deslizable */
+    .month-selector-wrapper {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding: 15px 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .month-selector-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .month-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    /* Gráfico semanal compacto */
+    .chart-card-full {
+        height: 220px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* mid-row: Total arriba, donut abajo */
+    .mid-row {
+        display: flex;
+        flex-direction: column-reverse;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .chart-card-half {
+        padding: 15px;
+    }
+
+    .chart-card-half canvas {
+        max-height: 150px;
+    }
+
+    .total-summary-card {
+        padding: 20px;
+        min-height: 90px;
+    }
+
+    .total-value {
+        font-size: 2rem;
+    }
+
+    /* Mini gráficos en carrusel horizontal */
+    .substats-grid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 15px;
+        margin-top: 20px;
+        padding-bottom: 15px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .substats-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chart-card-mini {
+        flex: 0 0 260px;
+        min-height: 0;
+    }
+
+    /* Formulario categorías en columna */
+    .form-categoria,
+    .form-subcategoria {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .form-categoria .minimal-select,
+    .form-subcategoria .minimal-select {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.85rem;
+    }
+
+    .btn-submit-categoria,
+    .btn-submit-subcategoria {
+        width: 100%;
+        padding: 14px;
+        min-height: 48px;
+        font-size: 0.85rem;
+    }
+
+    /* Historial */
+    .history-section {
+        margin-top: 30px;
+    }
+
+    .history-item {
+        padding: 12px 5px;
+    }
+
+    .h-info {
+        gap: 6px;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .h-date {
+        font-size: 0.75rem;
+        min-width: 34px;
+        flex-shrink: 0;
+    }
+
+    .h-cat {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .h-concept {
+        font-size: 0.8rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+    }
+
+    .h-amount {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .btn-delete {
+        font-size: 1.2rem;
+        padding: 0 3px;
+        flex-shrink: 0;
+    }
+
+    /* Botón flotante */
+    .fab-add {
+        bottom: 90px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 26px;
+    }
+}
