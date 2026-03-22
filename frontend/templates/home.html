@@ -7,7 +7,7 @@
     <div class="month-card-container">
         <div class="month-selector-mini">
             {% for m in meses %}
-            <button onclick="window.location.href='/?mes={{ m }}'" class="m-dot {% if m == mes_sel %}active{% endif %}">
+            <button onclick="window.location.href='/dashboard?mes={{ m }}'" class="m-dot {% if m == mes_sel %}active{% endif %}">
                 {{ m[:1] }}
             </button>
             {% endfor %}
