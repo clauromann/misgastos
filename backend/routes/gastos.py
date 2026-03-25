@@ -60,16 +60,6 @@ def lista_gastos():
                            values_cat=values_cat,
                            stats_sub=stats_sub_list) # Pasamos la lista ordenada
 
-    return render_template('gastos.html', 
-                           gastos=gastos_mes, 
-                           total_mes=total_mes,
-                           mes_actual=mes_actual,
-                           meses=meses_es,
-                           categorias=CategoriaGasto.query.filter_by(user_id=uid).all(), #
-                           data_sem=data_sem,
-                           labels_cat=labels_cat,
-                           values_cat=values_cat,
-                           stats_sub=stats_sub)
 
 @gastos_bp.route('/nuevo_gasto', methods=['POST'])
 @login_required
