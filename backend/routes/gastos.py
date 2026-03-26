@@ -50,15 +50,17 @@ def lista_gastos():
             "subcategorias": {s[0]: float(s[1]) for s in gastos_sub_raw}
         })
 
-    return render_template('gastos.html', 
-                           meses=meses_es,
-                           mes_actual=mes_actual,
-                           gastos=gastos_mes,
-                           total_mes=total_mes,
-                           data_sem=data_sem,
-                           labels_cat=labels_cat,
-                           values_cat=values_cat,
-                           stats_sub=stats_sub_list) # Pasamos la lista ordenada
+    return render_template('gastos.html',
+                       meses=meses_es,
+                       mes_actual=mes_actual,
+                       gastos=gastos_mes,
+                       total_mes=total_mes,
+                       data_sem=data_sem,
+                       labels_cat=labels_cat,
+                       values_cat=values_cat,
+                       stats_sub=stats_sub_list,
+                       categorias=CategoriaGasto.query.filter_by(user_id=uid).all(),
+                       hoy=datetime.now().strftime('%Y-%m-%d'))
 
 
 @gastos_bp.route('/nuevo_gasto', methods=['POST'])
